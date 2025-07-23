@@ -34,9 +34,6 @@ class AbsenHariIni extends Page
         $user = auth()->user();
         $today = now()->toDateString();
 
-        $this->latitude = null;
-        $this->longitude = null;
-
         $this->absenHariIni = Absensi::where('user_id', $user->id)
             ->whereDate('tanggal', $today)
             ->first();
@@ -45,23 +42,21 @@ class AbsenHariIni extends Page
         $this->isTerlambat = now()->greaterThan($batasWaktu);
 
         if ($this->absenHariIni && $this->absenHariIni->jam_masuk) {
-        $jamMasuk = \Carbon\Carbon::parse($this->absenHariIni->jam_masuk);
-        $batasWaktuPulang = $jamMasuk->copy()->addHours(8);
+            $jamMasuk = \Carbon\Carbon::parse($this->absenHariIni->jam_masuk);
+            $batasWaktuPulang = $jamMasuk->copy()->addHours(8);
 
-        // Anda bisa menggunakan ini untuk menonaktifkan tombol pulang, atau validasi:
-        $this->bolehPulang = now()->greaterThanOrEqualTo($batasWaktuPulang);
+            $this->bolehPulang = now()->greaterThanOrEqualTo($batasWaktuPulang);
         } else {
             $this->bolehPulang = false;
         }
 
-
-        if ($this->isTerlambat && !$this->absenHariIni) {
-            $this->absenHariIni = Absensi::create([
-                'user_id' => $user->id,
-                'tanggal' => $today,
-                'status' => 'alfa',
-            ]);
-        }
+        // if ($this->isTerlambat && !$this->absenHariIni) {
+        //     $this->absenHariIni = Absensi::create([
+        //         'user_id' => $user->id,
+        //         'tanggal' => $today,
+        //         'status' => 'hadir',
+        //     ]);
+        // }
     }
 
     public function absenMasuk()
@@ -84,27 +79,41 @@ class AbsenHariIni extends Page
             return;
         }
 
+        $now = now();
+        $batasWaktu = now()->setTime(9, 15, 0);
+
+        $keterlambatanMenit = 0;
+        if ($now->greaterThan($batasWaktu)) {
+            $keterlambatanMenit = $batasWaktu->diffInMinutes($now);
+        }
+
         Absensi::updateOrCreate(
             ['user_id' => $user->id, 'tanggal' => $today],
             [
-                'jam_masuk' => now()->format('H:i:s'),
+                'jam_masuk' => $now->format('H:i:s'),
                 'lokasi_masuk_latitude' => $this->latitude,
                 'lokasi_masuk_longitude' => $this->longitude,
-                'status' => 'hadir',
+                'status' => 'terlambat',
+                'keterangan' => $keterlambatanMenit > 0 ? "Terlambat $keterlambatanMenit menit" : null,
             ]
         );
 
         $this->absenHariIni = Absensi::where('user_id', $user->id)
-        ->whereDate('tanggal', $today)
-        ->first();
+            ->whereDate('tanggal', $today)
+            ->first();
 
         if ($existing && $existing->status === 'alfa') {
             Notification::make()->title('Anda sudah dianggap alfa hari ini')->danger()->send();
             return;
         }
 
-        Notification::make()->title('Absen Masuk berhasil')->success()->send();
+        if ($keterlambatanMenit > 0) {
+            Notification::make()->title("Absen Masuk berhasil, Anda terlambat $keterlambatanMenit menit")->warning()->send();
+        } else {
+            Notification::make()->title('Absen Masuk berhasil')->success()->send();
+        }
     }
+
 
     public function absenPulang()
     {

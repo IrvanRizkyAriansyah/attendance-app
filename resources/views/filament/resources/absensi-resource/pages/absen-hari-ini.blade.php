@@ -47,7 +47,7 @@
             <x-filament::button
                 color="success"
                 wire:click="absenMasuk"
-                :disabled="$isTerlambat || ($absenHariIni && $absenHariIni->jam_masuk)"
+                :disabled="($absenHariIni && $absenHariIni->jam_masuk)"
             >
                 Absen Masuk
             </x-filament::button>

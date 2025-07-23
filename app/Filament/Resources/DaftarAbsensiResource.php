@@ -50,6 +50,7 @@ class DaftarAbsensiResource extends Resource
                         'hadir' => 'success',
                         'cuti' => 'warning',
                         'alfa' => 'danger',
+                        'terlambat' => 'info',
                         default => 'gray',
                     }),
                 TextColumn::make('keterangan')->limit(20),

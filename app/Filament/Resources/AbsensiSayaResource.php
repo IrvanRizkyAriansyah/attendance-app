@@ -55,6 +55,7 @@ class AbsensiSayaResource extends Resource
                         'hadir' => 'success',
                         'cuti' => 'warning',
                         'alfa' => 'danger',
+                        'terlambat' => 'info',
                         default => 'gray',
                     }),
 

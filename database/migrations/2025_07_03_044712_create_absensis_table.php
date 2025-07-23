@@ -26,7 +26,7 @@ return new class extends Migration
             $table->string('lokasi_keluar_latitude')->nullable();
             $table->string('lokasi_keluar_longitude')->nullable();
 
-            $table->enum('status', ['hadir', 'cuti', 'alfa']);
+            $table->enum('status', ['hadir', 'cuti', 'terlambat', 'alfa']);
             $table->text('keterangan')->nullable();
 
             $table->timestamps();

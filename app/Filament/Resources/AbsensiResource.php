@@ -41,6 +41,7 @@ class AbsensiResource extends Resource
                     ->options([
                         'hadir' => 'Hadir',
                         'cuti' => 'Cuti',
+                        'terlambat' => 'Terlambat',
                         'alfa' => 'Alfa',
                     ])
                     ->required(),
@@ -63,6 +64,7 @@ class AbsensiResource extends Resource
                         'hadir' => 'success',
                         'cuti' => 'warning',
                         'alfa' => 'danger',
+                        'terlambat' => 'info',
                         default => 'gray',
                     }),
             ])
@@ -72,6 +74,7 @@ class AbsensiResource extends Resource
                 ->options([
                     'hadir' => 'Hadir',
                     'cuti' => 'Cuti',
+                    'terlambat' => 'Terlambat',
                     'alfa' => 'Alfa',
                 ]),
 

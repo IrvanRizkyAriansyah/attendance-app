@@ -15,7 +15,7 @@ class AbsensiStatusChart extends ChartWidget
     {
         $today = now()->toDateString();
 
-        $statuses = ['hadir', 'alfa', 'cuti'];
+        $statuses = ['hadir', 'alfa', 'cuti', 'terlambat'];
 
         $counts = collect($statuses)->mapWithKeys(function ($status) use ($today) {
             return [$status => Absensi::where('tanggal', $today)->where('status', $status)->count()];
@@ -29,7 +29,8 @@ class AbsensiStatusChart extends ChartWidget
                     'backgroundColor' => [
                         'rgba(34,197,94,0.7)',    // hadir - green
                         'rgba(239,68,68,0.7)',    // alfa - red
-                        'rgba(251,191,36,0.7)',   // cuti - blue
+                        'rgba(251,191,36,0.7)',   // cuti - yellow
+                        'rgba(59, 130, 246, 0.7)',   // terlambat - blue
                     ],
                 ],
             ],
