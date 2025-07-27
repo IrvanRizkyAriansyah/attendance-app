@@ -90,6 +90,11 @@ class AbsensiSayaResource extends Resource
 
     public static function shouldRegisterNavigation(): bool
     {
-        return Gate::allows('akses-manager') || Gate::allows('akses-karyawan');
+        return Gate::allows('akses-manager') || Gate::allows('akses-karyawan') || Gate::allows('akses-keuangan');
+    }
+
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()->where('user_id', auth()->id());
     }
 }

@@ -35,6 +35,13 @@ class PengajuanCutiResource extends Resource
                 Forms\Components\DatePicker::make('tanggal_mulai')->required(),
                 Forms\Components\DatePicker::make('tanggal_selesai')->required(),
                 Forms\Components\Textarea::make('alasan')->required(),
+                Forms\Components\Select::make('jenis_cuti')
+                    ->options([
+                        'cuti' => 'Cuti',
+                        'izin' => 'Izin',
+                        'sakit' => 'Sakit',
+                    ])
+                    ->default('cuti'),
                 Forms\Components\Select::make('status')
                     ->options([
                         'pending' => 'Pending',
@@ -103,6 +110,6 @@ class PengajuanCutiResource extends Resource
 
     public static function shouldRegisterNavigation(): bool
     {
-        return Gate::allows('akses-manager') || Gate::allows('akses-superadmin');
+        return Gate::allows('akses-manager') || Gate::allows('akses-superadmin') || Gate::allows('akses-keuangan');
     }
 }

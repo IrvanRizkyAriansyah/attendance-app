@@ -44,11 +44,13 @@ class AbsenHariIni extends Page
         if ($this->absenHariIni && $this->absenHariIni->jam_masuk) {
             $jamMasuk = \Carbon\Carbon::parse($this->absenHariIni->jam_masuk);
             $batasWaktuPulang = $jamMasuk->copy()->addHours(8);
+            $jamLimitPulang = now()->copy()->setTime(18, 15, 0);
 
-            $this->bolehPulang = now()->greaterThanOrEqualTo($batasWaktuPulang);
+            $this->bolehPulang = now()->greaterThanOrEqualTo($batasWaktuPulang) || now()->greaterThanOrEqualTo($jamLimitPulang);
         } else {
             $this->bolehPulang = false;
         }
+
 
         // if ($this->isTerlambat && !$this->absenHariIni) {
         //     $this->absenHariIni = Absensi::create([
@@ -155,7 +157,7 @@ class AbsenHariIni extends Page
 
     public static function shouldRegisterNavigation(): bool
     {
-        return Gate::allows('akses-manager') || Gate::allows('akses-karyawan');
+        return Gate::allows('akses-manager') || Gate::allows('akses-karyawan') || Gate::allows('akses-keuangan');
     }
 
 }

@@ -37,5 +37,9 @@ class AuthServiceProvider extends ServiceProvider
             return $user->role === 'karyawan';
         });
 
+        Gate::define('akses-keuangan', function (User $user) {
+            return $user->role === 'keuangan';
+        });
+
     }
 }

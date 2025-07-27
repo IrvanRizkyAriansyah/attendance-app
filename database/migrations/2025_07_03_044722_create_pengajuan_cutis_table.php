@@ -20,6 +20,7 @@ return new class extends Migration
             $table->text('alasan');
 
             $table->enum('status', ['pending', 'disetujui', 'ditolak'])->default('pending');
+            $table->enum('jenis_cuti', ['izin', 'sakit', 'cuti'])->default('cuti');
 
             $table->foreignId('disetujui_oleh')->nullable()->constrained('users')->onDelete('set null');
             $table->timestamp('tanggal_disetujui')->nullable();

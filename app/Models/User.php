@@ -21,7 +21,14 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'role'
+        'role',
+        'tempat_lahir',
+        'tanggal_lahir',
+        'jenis_kelamin',
+        'alamat',
+        'no_hp',
+        'departemen',
+        'jabatan'  
     ];
 
     /**
@@ -43,4 +50,10 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+
+    public function slipGajis()
+    {
+        return $this->hasMany(\App\Models\SlipGaji::class);
+    }
 }

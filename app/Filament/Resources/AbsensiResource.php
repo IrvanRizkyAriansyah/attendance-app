@@ -107,7 +107,7 @@ class AbsensiResource extends Resource
 
     public static function shouldRegisterNavigation(): bool
     {
-        return Gate::allows('akses-manager') || Gate::allows('akses-superadmin');
+        return Gate::allows('akses-manager') || Gate::allows('akses-superadmin') || Gate::allows('akses-keuangan');
     }
 
 }

@@ -8,6 +8,7 @@ use App\Models\Pengajuan;
 use App\Models\PengajuanCuti;
 use Filament\Forms;
 use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -44,6 +45,12 @@ class PengajuanResource extends Resource
                     ->disabled(fn (callable $get) => !$get('tanggal_mulai')) 
                     ->required(),
 
+                Select::make('jenis_cuti')
+                    ->options([
+                        'cuti' => 'Cuti',
+                        'izin' => 'Izin',
+                        'sakit' => 'Sakit',
+                    ]),
                 Textarea::make('alasan')
                     ->label('Alasan')
                     ->required()

@@ -6,7 +6,9 @@ use App\Filament\Resources\UserResource\Pages;
 use App\Filament\Resources\UserResource\RelationManagers;
 use App\Models\User;
 use Filament\Forms;
+use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -35,6 +37,7 @@ class UserResource extends Resource
                     ->options([
                         'admin' => 'Admin',
                         'manager' => 'Manager',
+                        'keuangan' => 'Keuangan',
                         'karyawan' => 'Karyawan',
                     ])
                     ->required(),
@@ -42,6 +45,29 @@ class UserResource extends Resource
                     ->password()
                     ->dehydrated(fn ($state) => filled($state))
                     ->required(fn ($context) => $context === 'create'),
+                TextInput::make('tempat_lahir')->label('Tempat Lahir')->required(),
+                DatePicker::make('tanggal_lahir')->label('Tanggal Lahir')->required(),
+                Select::make('jenis_kelamin')
+                    ->label('Jenis Kelamin')
+                    ->options([
+                        'L' => 'Laki-laki',
+                        'P' => 'Perempuan',
+                    ])
+                    ->required(),
+                Textarea::make('alamat')->label('Alamat')->required(),
+                TextInput::make('no_hp')->label('No HP')->tel()->required(),
+                Select::make('departemen')
+                    ->label('Departemen')
+                    ->options([
+                        'Marketing' => 'Marketing',
+                        'Purchasing' => 'Purchasing',
+                        'Keuangan' => 'Keuangan',
+                    ])
+                    ->searchable()
+                    ->required(),
+
+                TextInput::make('jabatan')->label('Jabatan')->required(),
+
 
             ]);
     }

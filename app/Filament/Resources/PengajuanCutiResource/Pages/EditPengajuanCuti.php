@@ -37,7 +37,7 @@ class EditPengajuanCuti extends EditRecord
                             'tanggal' => $tanggal->format('Y-m-d'),
                         ],
                         [
-                            'status' => 'cuti',
+                            'status' => $record->jenis_cuti,
                             'keterangan' => $record->alasan,
                         ]
                     );
